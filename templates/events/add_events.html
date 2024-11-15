@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+{% if request.user.is_authenticated %}
+<center>
+    {% if submited %}
+        you have submitted succesfully
+    {% else %}
+        <h1>Add Event To Database</h1>
+        {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    
+        <br><br>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" placeholder="Event Name" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="date" class="form-control" name="date" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <select placeholder="venue" class="form-control" name="venue">
+                    {% for venue in form.venue %}
+                        {{venue}}
+                    {% endfor %}
+                </select>
+            </div>
+                {% if request.user.is_superuser %}
+                    <div class="mb-3">
+                        <select placeholder="venue" class="form-control" name="manager">
+                            {% for venue in form.manager %}
+                                {{venue}}
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% else %}
+                {% endif %}
+            <div class="mb-3">
+                {{ form.attendees }}
+            </div>
+            <div class="mb-3">
+                <textarea placeholder="description" class="form-control" name="description"></textarea>
+            </div>
+            <button class="btn btn-outline-success">Submit</button>
+        </form>
+
+    {% endif %}
+</center> 
+{% else %}
+<center>
+    <h1>You Cant access the page because you haven't logged in</h1>
+    <a href="{% url 'login' %}">Login</a> -Or- <a href="{% url 'register' %}">Sign-Up</a>
+</center>
+{% endif %} 
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+    <center>
+        <h1>hello {{ name }}, events on {{month}}, {{year }}</h1>
+        <p>As of {{time}}</p>
+        {{ cal|safe }}
+        <br><br><br>
+        <h3>Event This Month</h3>
+        {% if events %}
+            {%for event in events %}
+                {{event}} - {{event.date}} <br> 
+            {% endfor %}
+        {% else %}
+        {% endif %}
+        <br>
+        <p>Copyright (c) {{current_year}}</p>
+    </center>  
+{% endblock %}

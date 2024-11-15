@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+{% if request.user.is_authenticated %}
+
+
+    {% if submited %}
+        you have submitted succesfully
+    {% else %}
+        <h1>Events Approval</h1>
+        <br><br><br>
+
+        <div class="card" style="width: 35%;">
+            <p class="card-header">Events - Venue - User counts</p>
+            <div class="card-body">
+            <p class="card-text">Venue: {{ venue_counts }}</p>
+            <p class="card-text">Events: {{ event_counts }}</p>
+            <p class="card-text">User: {{ user_counts }}</p>
+
+            </div>
+          </div>
+<br><br><br>
+<center>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table border="1" class="table-hover table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Events Name</th>
+                    <th scope="col">Approved</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.name }}</td>
+                        {% if event.approved %}
+                        <td><input type="checkbox" value="{{ event.id }}" checked name="checked"></td>
+                        {% else %}
+                        <td><input type="checkbox" value="{{ event.id }}"  name="checked"></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button class="btn btn-success">Update Events</button>
+        </form>
+
+    {% endif %}
+</center> 
+{% else %}
+<center>
+    <h1>You Cant access the page because you haven't logged in</h1>
+    <a href="{% url 'login' %}">Login</a> -Or- <a href="{% url 'register' %}">Sign-Up</a>
+</center>
+{% endif %} 
+{% endblock %}

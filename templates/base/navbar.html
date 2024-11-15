@@ -1,0 +1,90 @@
+
+<nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="{% url 'home' %}">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'home' '2024' 'March' %}">Calendar</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Events
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'events-list' %}">Event</a></li>
+              {% if request.user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'add-events' %}">Add Events</a></li>
+              {% else %}
+              {% endif %}
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Venues
+            </a>
+            <ul class="dropdown-menu">
+              {% if request.user.is_authenticated %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'add-venue' %}">Add Venue</a>
+                </li>
+              {% else %}
+              {% endif %}
+              <li class="nav-item">
+                <a class="dropdown-item" href="{% url 'list-venue' %}">Venue</a>
+              </li>
+            </ul>
+          </li>
+
+          {% if request.user.is_authenticated and request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin Portal
+            </a>
+            <ul class="dropdown-menu">
+              <li class="nav-item">
+                <a class="dropdown-item" href="{% url 'approve-events' %}">Events Approval</a>
+              </li>
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Downloads
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'generate_text' %}">Venue Text</a></li>
+                <li><a class="dropdown-item" href="{% url 'generate_csv' %}">Venue csv</a></li>
+                <li><a class="dropdown-item" href="{% url 'generate_pdf' %}">Venue pdf</a></li>
+              </ul>
+            </li>
+          {% else %}
+          {% endif %}
+
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'register' %}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+        <form class="d-flex" method="post" action="{% url 'search-venue' %}" role="search">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" name="searched"  placeholder="Search Venue" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>

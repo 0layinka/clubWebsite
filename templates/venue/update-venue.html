@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+    <center>
+        <h1>Update Venue Information</h1>
+        <br><br>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <input type="text" placeholder="Venue Name" value="{{ form.name.value }}" name="name" class="form-control" id="exampleInputName">
+            </div>
+
+            <div class="mb-3">
+                <input type="text" placeholder="Address" value="{{ form.adress.value }}" name="adress" class="form-control" id="exampleInputAddress">
+            </div>
+
+            <div class="mb-3">
+                <input type="email" placeholder="Email" value="{{ form.email.value }}" name="email" class="form-control" id="exampleInputEmail">
+            </div>
+
+            <div class="mb-3">
+                <input type="text" placeholder="Venue Website" value="{{ form.web.value }}" name="web" class="form-control" id="exampleInputWebsite">
+            </div>
+
+            <div class="mb-3">
+                <input type="text" placeholder="Zip Code" value="{{ form.zip_code.value }}" name="zip_code" class="form-control" id="exampleInputZipCode">
+            </div>
+
+            <div class="mb-3">
+                <input type="text" placeholder="Phone" value="{{ form.phone.value }}" name="phone" class="form-control" id="exampleInputPhone">
+            </div>
+            <div class="mb-3">
+                {{form.image}}
+            </div>
+            <button class="btn btn-outline-success">Update</button>
+        </form>
+    </center>
+{% endblock %}

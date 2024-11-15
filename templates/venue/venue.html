@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+<h1><center>VENUE</center></h1>
+<br><br>
+    {% for venue in paginations %}
+        <div class="card my-3">
+            <div class="card-header d-flex text-uppercase fw-bold" style="justify-content: space-between;">
+                <b><a href="{% url 'show-venue' venue.id %}">{{venue.name}}</a> : {{venue.phone}}</b>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.id == venue.owner %}
+                        <div>
+                            <a href="{% url 'update-venue' venue.id  %}">Update Venue</a>
+                            <a class="mx-2 btn btn-danger" href="{% url 'delete-venue' venue.id  %}">Delete Venue</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+     <!-- Pagination controls -->
+     <div class="pagination">
+        {% if paginations.has_previous %}
+            <a class="mx-2" href="?page=1">First</a>
+            <a class="mx-2" href="?page={{ paginations.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ paginations.number }} of {{ paginations.paginator.num_pages }}</span>
+
+        {% if paginations.has_next %}
+            <a class="mx-2" href="?page={{ paginations.next_page_number }}">Next</a>
+            <a class="mx-2" href="?page={{ paginations.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+{% endblock %}

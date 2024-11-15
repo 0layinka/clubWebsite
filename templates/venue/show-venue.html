@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+<br><br>
+    <div class="card">
+        <div class="card-header text-uppercase fw-bold">
+            VENUE
+        </div>
+        <div class="card-body">
+            <h5 class="card-title text-uppercase">Venue: {{venue}}</h5>
+            <p class="card-text">
+                <ul>
+                    <li>VENUE ADRESS: {{venue.adress}}</li>
+                    <li>Zip Code : {{venue.zip_code}}</li>
+                    <li>Phone: {{venue.phone}}</li>
+                    <li>Venue Web: <a href="{{venue.web}}">{{venue.web}}</a></li>
+                    <li>Email: {{venue.email}}</li>
+                    <li>Owner: {{owner}}</li>
+                    {% if venue.image %}
+                    <img src="{{venue.image.url}}" width="100" alt="">
+                    {% endif %}
+                </ul>
+            </p>
+        </div>
+    </div>
+{% endblock %}

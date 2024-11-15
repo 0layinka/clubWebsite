@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+    
+{% block main %}
+<br><br>
+    <form class="d-flex" method="post" action="{% url 'search-events' %}" role="search">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="searched"  placeholder="Search Events" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <br><br><br>
+    {% for event in Event %}
+        {% if event.approved %}
+        <div class="card my-3">
+            <div class="card-header text-uppercase fw-bold">
+                {{event.name}}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-uppercase">Venue: {{event.venue}}</h5>
+                <p class="card-text">
+                    <ul>
+                        {% if event.approved %}
+                            <p class="text-success">Approved</p>
+                        {% else %}
+                            <p class="text-danger">Not Approved</p>
+                        {% endif %}
+                        <li>VENUE WEBSITE: {{event.venue.web}}</li>
+                        <li>DATE: {{event.date}}</li>
+                        <li>{{ event.till_date }}</li>
+                        <li>MANAGER: {{event.manager}}</li>
+                        <li>ATTENDEES: 
+                            <ul>
+                                {% for attenders in event.attendees.all %}
+                                <li>{{attenders}}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+            {% if request.user.is_authenticated and  request.user == event.manager %}
+                <div class="card-header text-uppercase fw-bold">
+                    <a class="btn btn-outline-info" href="{% url 'update-events' event.id %}">Update</a>
+                    <a class="btn btn-outline-danger" href="{% url 'delete-event' event.id %}">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
